@@ -1,4 +1,4 @@
-# _MQuest  ::crossed_swords::
+# _MQuest  :crossed_swords:
 
 ## O jogo
 É um simples jogo de RPG, ainda nem sei qual vai ser a história do personagem, estou construindo tudo junto, espero organizar esse projeto e evitar muito código poluido ;)  
