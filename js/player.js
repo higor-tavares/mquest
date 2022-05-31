@@ -1,6 +1,10 @@
 import canvas from "./canvas.js";
 
-export default class Player{
+const PLAYER_SIZE = 48
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+export default class Player {
 
     width;
     height;
@@ -9,63 +13,75 @@ export default class Player{
     ctx;
     image;
     canvas;
-
-    constructor(){
-        this.width =  64;
+    constructor() {
+        this.width = 64;
         this.height = 64;
         this.posX = 20;
         this.posY = 20;
         this.ctx = canvas.getContext().ctx;
         this.canvas = canvas.getContext().canvas;
+      
     }
 
-    init = function (index) {
+    drawPlayer = function (i, j) {
+
         this.image = new Image();
-        this.image.src = `assets/img/tile${index}.png`;
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-    
-    drawPlayer =  function(index) {
-        this.init(index);
+        this.image.src = `assets/img/george.png`;
         this.image.onload = () => {
-            this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height);
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.ctx.drawImage(this.image, i * PLAYER_SIZE, j * PLAYER_SIZE, PLAYER_SIZE, PLAYER_SIZE, this.posX, this.posY, this.width, this.height);
         }
     }
     talk = function (message) {
         this.ctx.clearRect(0, 130, this.canvas.width, this.canvas.height);
         this.ctx.fillStyle = "#000";
-        this.ctx.font = "18px Roboto bold"
-        this.ctx.fillText(message, 5, 460);
+        this.ctx.font = "24px Roboto bold"
+        this.ctx.fillText(message, 5, 475);
     }
-    moveIt = function(keyCode) {
+    async moveToUp() {
+        if (this.posY <= 20) return;
 
-        switch (keyCode) {
-            case "ArrowUp":
-                if (this.posY <= 0) return;
-                this.posX = this.posX;
-                this.posY = this.posY - 5;
-                this.drawPlayer('002');
-                break;
-            case "ArrowDown":
-                if (this.posY >= this.canvas.height-this.height) return;
-                this.posX = this.posX;
-                this.posY = this.posY + 5;
-                this.drawPlayer('000');
-                break;
-            case "ArrowLeft":
-                if (this.posX <= 0) return;
-                this.posX = this.posX -5;
-                this.posY = this.posY;
-                this.drawPlayer('001');
-                break;
-            case "ArrowRight":
-                if (this.posX >= this.canvas.width-this.width) return;
-                this.posX = this.posX +5;
-                this.posY = this.posY;
-                this.drawPlayer('003');
-                break;
-            default:
-                return;
+        for (let i = 0; i < 4; i++) {
+            await sleep(300)
+            this.posX = this.posX;
+            this.posY = this.posY - 5;
+            this.drawPlayer(2, i);
+
         }
     }
+
+    async moveToDown() {
+        if (this.posY >= this.canvas.height - (this.height+20)) return;
+
+        for (let i = 0; i < 4; i++) {
+            await sleep(300)
+            this.posX = this.posX;
+            this.posY = this.posY + 5;
+            this.drawPlayer(0, i);
+
+        }
+    }
+
+    async moveToRight() {
+        if (this.posX >= this.canvas.width - (this.width+20)) return;
+
+        for (let i = 0; i < 4; i++) {
+            await sleep(300)
+            this.posX = this.posX + 5;
+            this.posY = this.posY;
+            this.drawPlayer(3, i);
+        }
+    }
+
+    async moveToLeft() {
+        if (this.posX <= 20) return;
+        for (let i = 0; i < 4; i++) {
+            await sleep(300)
+            this.posX = this.posX - 5;
+            this.posY = this.posY;
+            this.drawPlayer(1, i);
+        }
+    }
+
+
 }
