@@ -7,9 +7,6 @@ function canvas() {
         return { ctx: canvas.getContext('2d'), canvas: canvas};
     }
     
-    self.getImage = function() {
-        return document.getElementById("player");
-    }
 
     return self;
 }

@@ -1,58 +1,71 @@
 import canvas from "./canvas.js";
 
-function player() {
+export default class Player{
 
-    let self = {posX:20,posY:20,...canvas.getContext()};
+    width;
+    height;
+    posX;
+    posY;
+    ctx;
+    image;
+    canvas;
 
-    self.init = function (index) {
-        const image = canvas.getImage();
-        image.setAttribute("src", `assets/img/tile${index}.png`);
-        self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
-        self.image = document.getElementById('player');
+    constructor(){
+        this.width =  64;
+        this.height = 64;
+        this.posX = 20;
+        this.posY = 20;
+        this.ctx = canvas.getContext().ctx;
+        this.canvas = canvas.getContext().canvas;
+    }
+
+    init = function (index) {
+        this.image = new Image();
+        this.image.src = `assets/img/tile${index}.png`;
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
     
-    self.drawPlayer = function (index) {
-        self.init(index);
-        self.ctx.drawImage(self.image, self.posX, self.posY, 32, 32);
-        self.ctx.fillStyle = "#FF0000";
+    drawPlayer =  function(index) {
+        this.init(index);
+        this.image.onload = () => {
+            this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height);
+        }
     }
-    self.talk = function (message) {
-        self.ctx.clearRect(0, 130, self.canvas.width, self.canvas.height);
-        self.ctx.fillStyle = "#000";
-        self.ctx.fillText(message, 5, 145);
+    talk = function (message) {
+        this.ctx.clearRect(0, 130, this.canvas.width, this.canvas.height);
+        this.ctx.fillStyle = "#000";
+        this.ctx.font = "18px Roboto bold"
+        this.ctx.fillText(message, 5, 460);
     }
-    self.moveIt = function(keyCode) {
+    moveIt = function(keyCode) {
 
         switch (keyCode) {
             case "ArrowUp":
-                if (self.posY <= 0) return;
-                self.posX = self.posX;
-                self.posY = self.posY - 5;
-                self.drawPlayer('002');
+                if (this.posY <= 0) return;
+                this.posX = this.posX;
+                this.posY = this.posY - 5;
+                this.drawPlayer('002');
                 break;
             case "ArrowDown":
-                if (self.posY >= self.canvas.height-32) return;
-                self.posX = self.posX;
-                self.posY = self.posY + 5;
-                self.drawPlayer('000');
+                if (this.posY >= this.canvas.height-this.height) return;
+                this.posX = this.posX;
+                this.posY = this.posY + 5;
+                this.drawPlayer('000');
                 break;
             case "ArrowLeft":
-                if (self.posX <= 0) return;
-                self.posX = self.posX -5;
-                self.posY = self.posY;
-                self.drawPlayer('001');image
+                if (this.posX <= 0) return;
+                this.posX = this.posX -5;
+                this.posY = this.posY;
+                this.drawPlayer('001');
                 break;
             case "ArrowRight":
-                if (self.posX >= self.canvas.width-32) return;
-                self.posX = self.posX +5;
-                self.posY = self.posY;
-                self.drawPlayer('003');
+                if (this.posX >= this.canvas.width-this.width) return;
+                this.posX = this.posX +5;
+                this.posY = this.posY;
+                this.drawPlayer('003');
                 break;
             default:
                 return;
         }
     }
-    
-    return self;
 }
-export default player();

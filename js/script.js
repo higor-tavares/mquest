@@ -1,10 +1,10 @@
 "use strict"
 
-import player from "./player.js";
+import Player from "./player.js";
 
 function game() {
     const self = {};
-
+    const player = new Player();
     document.addEventListener("DOMContentLoaded", function(event) {
         player.drawPlayer('000');
         player.talk('Olá me chamo Jõao Matheus! Como você se chama?');
@@ -15,9 +15,10 @@ function game() {
         player.talk(`Seja bem vindo, ${text}!`);
     }
     self.keyboardListener = function() {
-       document.addEventListener("keyup",(event)=>{
+       document.addEventListener("keydown", async (event)=>{
            if(['ArrowDown','ArrowUp','ArrowLeft','ArrowRight'].indexOf(event.code) != -1) {
                player.moveIt(event.code);
+               await new Promise(r => setTimeout(r, 500));
            }
        })
     }
