@@ -7,7 +7,7 @@ const HEIGHT = 480*0.9;
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-export default class Player {
+export default class Enemy {
 
     width;
     height;
@@ -17,33 +17,23 @@ export default class Player {
     image;
     canvas;
     constructor() {
-        this.width = 64;
+        this.width = 32;
         this.height = 64;
-        this.posX = 20;
-        this.posY = 20;
+        this.posX = 150;
+        this.posY = 120;
         this.ctx = canvas.getContext().ctx;
         this.canvas = canvas.getContext().canvas;
       
     }
 
-    drawPlayer = function (i, j) {
+    drawEnemy = function (i, j) {
 
         this.image = new Image();
-        this.image.src = `assets/img/george.png`;
+        this.image.src = `assets/img/pumpkin_monster.png`;
         this.image.onload = () => {
             this.ctx.clearRect(this.posX, this.posY, this.width, this.height);
-            this.ctx.drawImage(this.image, i * PLAYER_SIZE, j * PLAYER_SIZE, PLAYER_SIZE, PLAYER_SIZE, this.posX, this.posY, this.width, this.height);
+            this.ctx.drawImage(this.image, i * 32, j * 64, 32, 64, this.posX, this.posY, this.width*1.4, this.height*1.4);
         }
-    }
-    talk = function (message) {
-        this.ctx.clearRect(0, HEIGHT*0.9, this.canvas.width, this.canvas.height);
-        this.ctx.fillStyle = "#000";
-        this.ctx.font = "24px Roboto bold"
-        this.ctx.fillText(message, 5, 475);
-        window.setTimeout(
-            () => this.ctx.clearRect(0, HEIGHT*0.9, this.canvas.width, this.canvas.height),
-            1500
-        )
     }
     async moveToUp() {
         this.moveIt('UP')

@@ -1,5 +1,6 @@
 "use strict"
 
+import Enemy from "./enemy.js";
 import Player from "./player.js";
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -8,9 +9,11 @@ function sleep(ms) {
 function game() {
     const self = {};
     const player = new Player();
+    const enemy = new Enemy();
     document.addEventListener("DOMContentLoaded", function(event) {
         player.drawPlayer(0,0);
         player.talk('Olá me chamo Jõao Matheus! Como você se chama?');
+        enemy.drawEnemy(0,0);
         self.keyboardListener();
     });
     self.message = function() {
